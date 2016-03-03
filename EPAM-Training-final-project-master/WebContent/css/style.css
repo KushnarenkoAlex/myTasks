@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+body {
+	padding-top: 70px;
+}
+
+.seat-container {
+	diplay: none;
+}
+
+.inner {
+    display: inline-block;
+    position: relative;
+}

@@ -1,0 +1,85 @@
+package ua.nure.serdyuk.SummaryTask4.util;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import ua.nure.serdyuk.SummaryTask4.entity.bean.TicketOrderBean;
+
+public class ETicket {
+
+	private static final Logger LOG = Logger.getLogger(ETicket.class);
+
+	private static final float[] COLUMNS_WIDTHS = { 1f, 2f };
+
+	private TicketOrderBean bean;
+
+	public ETicket(TicketOrderBean bean) {
+		this.bean = bean;
+	}
+
+	public void createDocument(String path) {
+		Document document = new Document();
+
+		try {
+			BaseFont bf = null;
+			try {
+				bf = BaseFont.createFont("C:\\WINDOWS\\Fonts\\ARIAL.TTF",
+						BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			} catch (DocumentException e1) {
+				e1.printStackTrace();
+			}
+			Font font = new Font(bf);
+
+			File file = new File(path);
+			file.createNewFile();
+
+			PdfWriter.getInstance(document, new FileOutputStream(file));
+
+			document.open();
+			Paragraph p = new Paragraph(String.format("Номер поезда: %s",
+					bean.getTrainBean().getTrainTag()), font);
+			PdfPTable table = new PdfPTable(COLUMNS_WIDTHS);
+
+			table.addCell(new Paragraph("Поезд: ", font));
+			table.addCell(
+					new Paragraph(bean.getTrainBean().getTrainTag(), font));
+
+			table.addCell(new Paragraph("Вагон: ", font));
+			table.addCell(new Paragraph(bean.getCarriage().getTag(), font));
+
+			table.addCell(new Paragraph("Место: ", font));
+			table.addCell(String.valueOf(bean.getSeatNum()));
+
+			table.addCell(new Paragraph("Имя: ", font));
+			table.addCell(new Paragraph(String.format("%s %s",
+					bean.getFirstName(), bean.getLastName()), font));
+
+			table.addCell(new Paragraph("Вагон: ", font));
+			table.addCell(new Paragraph(bean.getCarriage().getTag(), font));
+
+			table.addCell(new Paragraph("Вагон: ", font));
+			table.addCell(new Paragraph(bean.getCarriage().getTag(), font));
+
+			// document.newPage();
+			document.add(table);
+			document.close();
+
+		} catch (DocumentException | IOException e) {
+			LOG.error(String.format("Error while creating pdf: %s",
+					e.getMessage()));
+		}
+	}
+
+}

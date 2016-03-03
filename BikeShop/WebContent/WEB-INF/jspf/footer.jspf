@@ -1,0 +1,14 @@
+<div class="footer">
+    <div class="container wrap">
+        <div class="logo2">
+            <a href="index.html"><img src="images/logo2.png" alt="" /></a>
+        </div>
+        <div class="ftr-menu">
+            <ul>
+                <li><a href="bikeList">BICYCLES</a></li>
+                <li><a href="login">MY ACCOUNT</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

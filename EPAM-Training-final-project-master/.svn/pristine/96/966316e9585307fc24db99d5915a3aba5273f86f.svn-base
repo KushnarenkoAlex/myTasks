@@ -1,0 +1,81 @@
+package ua.nure.serdyuk.SummaryTask4.db;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import ua.nure.serdyuk.SummaryTask4.constants.Message;
+import ua.nure.serdyuk.SummaryTask4.exception.DbException;
+
+public final class DbUtils {
+
+	private static final Logger LOG = Logger.getLogger(DbUtils.class);
+
+	private static DataSource ds;
+
+	static {
+		try {
+			LOG.debug("Loading data source");
+			Context context = (Context) new InitialContext()
+					.lookup("java:/comp/env");
+			ds = (DataSource) context.lookup("jdbc/SummaryTask4");
+		} catch (NamingException e) {
+			LOG.error(Message.ERR_CANNOT_OBTAIN_DATASOURCE);
+			throw new DbException(Message.ERR_CANNOT_OBTAIN_DATASOURCE);
+		}
+	}
+
+	public static void close(Connection conn, Statement s, ResultSet rs) {
+		try {
+			if (rs != null) {
+				rs.close();
+			}
+			if (s != null) {
+				s.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		} catch (SQLException e) {
+			LOG.error(Message.ERR_CANNOT_CLOSE_RESOURCES);
+			throw new DbException(Message.ERR_CANNOT_CLOSE_RESOURCES,e);
+		}
+	}
+
+	public static void rollback(Connection conn) {
+		try {
+			conn.rollback();
+		} catch (SQLException e) {
+			LOG.error(Message.ERR_CANNOT_ROLLBACK);
+			throw new DbException(Message.ERR_CANNOT_ROLLBACK,e);
+		}
+	}
+
+	public static Connection getConnection() {
+		Connection conn = null;
+		try {
+			conn = (Connection) ds.getConnection();
+		} catch (SQLException e) {
+			LOG.error(Message.ERR_CANNOT_OBTAIN_CONNECTION);
+			throw new DbException(Message.ERR_CANNOT_OBTAIN_CONNECTION);
+		}
+		return conn;
+	}
+	
+	public static boolean isBatchSuccessful(int[] results) {
+		for (int r : results) {
+			if (r <= 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+}

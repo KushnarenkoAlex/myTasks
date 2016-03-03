@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security>
+    <constraint>
+        <url-pattern>/admin</url-pattern>
+        <role>admin</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/orders</url-pattern>
+        <role>admin</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/bikeList</url-pattern>
+        <role>user</role>
+    </constraint>
+    <constraint>
+        <url-pattern>/bucket</url-pattern>
+        <role>user</role>
+    </constraint>
+</security>

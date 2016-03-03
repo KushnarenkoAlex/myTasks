@@ -1,0 +1,75 @@
+<body lang="${currentLocaleLocale.language}">
+	<div class="container">
+
+		<nav class="navbar navbar-default navbar-fixed-top">
+
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="controller?command=indexView">ST4</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="controller?command=indexView"><fmt:message
+								key="label.home" /></a></li>
+					<c:if test="${currentUser.role.id==1}">
+						<li><a href="controller?command=adminView"><fmt:message
+									key="label.admin_page" /></a></li>
+					</c:if>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<c:choose>
+						<c:when test="${not empty sessionScope.currentUser}">
+							<li><a href="#"><span class="glyphicon glyphicon-star" />
+									<fmt:message key="label.my_profile" /></a></li>
+							<li><a href="controller?command=logout"><span
+									class="glyphicon glyphicon-log-out" /> <fmt:message
+										key="action.log_out" /></a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="controller?command=signUpView"> <span
+									class="glyphicon glyphicon-bell"></span> <fmt:message
+										key="label.sign_up" /></a></li>
+							<li><a href="controller?command=loginView"><span
+									class="glyphicon glyphicon-user"></span> <fmt:message
+										key="label.login" /> </a></li>
+						</c:otherwise>
+					</c:choose>
+					<c:if test="${fn:length(localeList) != 0}">
+						<c:forEach items="${localeList}" var="localeItem">
+							<c:url var="pageUrl" value="">
+								<c:forEach items="${param}" var="entry">
+									<c:if test="${entry.key != 'lang'}">
+										<c:param name="${entry.key}" value="${entry.value}" />
+									</c:if>
+								</c:forEach>
+								<c:param name="lang" value="${localeItem}" />
+							</c:url>
+
+							<fmt:message key="${localeItem}" var="loc" />
+							<c:choose>
+								<c:when
+									test="${fn:toLowerCase(sessionScope.currentLocaleLocale) == fn:toLowerCase(localeItem)}">
+									<li class="active">
+								</c:when>
+								<c:otherwise>
+									<li>
+								</c:otherwise>
+							</c:choose>
+							<a href="${pageUrl}">${loc} </a>
+							</li>
+						</c:forEach>
+					</c:if>
+
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<!-- <c:if test="${not empty sessionScope.user }">
+	<fmt:message key="message.header">
+		<fmt:message key="${sessionScope.user.role}" var="role" />
+		<fmt:param value="${sessionScope.user.login}" />
+		<fmt:param value="${role}" />
+	</fmt:message>
+	<br />
+	<a href="controller?command=logout"> <fmt:message
+			key="action.log_out" /></a>
+</c:if>-->

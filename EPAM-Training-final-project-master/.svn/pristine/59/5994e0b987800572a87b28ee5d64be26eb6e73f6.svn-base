@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/JSP/TagLibraryDescriptor"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/ 
+web-jsptaglibrary_2_0.xsd"
+		version="2.0">
+		<tlib-version>1.0</tlib-version>
+		<uri>/WEB-INF/myTags.tld</uri>
+		
+		<tag>
+				<name>goBack</name>
+				<tag-class>ua.nure.serdyuk.web.tag.GoBackTag</tag-class>
+				<body-content>empty</body-content>
+				
+		</tag>
+		<tag-file>
+				<name>displayTrainBeans</name>
+				<path>/WEB-INF/tags/trainInfo.tag</path>
+				<body-content>empty</body-content>
+				<attribute>
+						<name>trainBeans</name>
+						<required>true</required>
+				</attribute>
+				<attribute>
+						<name>display</name>
+						<required>true</required>
+				</attribute>
+		</tag-file>
+</taglib>

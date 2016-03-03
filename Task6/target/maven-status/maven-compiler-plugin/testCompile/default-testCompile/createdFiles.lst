@@ -1,0 +1,4 @@
+com\epam\preprod\kushnarenko\serverCommands\GetCountCommandTest.class
+com\epam\preprod\kushnarenko\logic\ShopTest.class
+com\epam\preprod\kushnarenko\processor\MyTCPProcessorTest.class
+com\epam\preprod\kushnarenko\logic\ProductDBTest.class
